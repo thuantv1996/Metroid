@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{9a70a513-5903-4d93-a4fc-cde598bb7c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OBJ">
+      <UniqueIdentifier>{80d3a452-7d2f-4e75-9d99-7de3fe07d965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OBJ\Map">
+      <UniqueIdentifier>{f307a90d-645d-419f-b8ac-0a3bccda9eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OBJ\Player">
+      <UniqueIdentifier>{91223372-0a2f-4445-82a4-ae99d15fa3f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OBJ\Item">
+      <UniqueIdentifier>{3207303a-e445-4cd5-84b8-0d7e8c8e93c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OBJ\Enemy">
+      <UniqueIdentifier>{ad67d1c9-3dd5-4d1b-9c89-52015a02d854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{ff43bafc-046c-4b7d-bf31-dbc0a8d25ad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OBJ">
+      <UniqueIdentifier>{9c47b0a5-cb6d-469f-83c1-04ae73871522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OBJ\Player">
+      <UniqueIdentifier>{69f16894-2d01-4e2e-adf1-06ebf171ae8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OBJ\Enemy">
+      <UniqueIdentifier>{b80c89e9-7b44-479d-9af2-06d7ab5b64f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OBJ\Item">
+      <UniqueIdentifier>{3b38401a-7753-4fd7-8f3b-1b5a638a7f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OBJ\Map">
+      <UniqueIdentifier>{a363d595-632e-4e3f-9e35-5a2664904a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OBJ\Boss">
+      <UniqueIdentifier>{c9a5048c-1a5d-4669-bf28-b27033156707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OBJ\Boss">
+      <UniqueIdentifier>{a15c017b-b436-4e14-9d9d-0c322ca38408}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayObject.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSprite.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsDevice.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="InputGame.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Colision.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="MetroidChacracter.h">
+      <Filter>Header Files\OBJ\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Rio.h">
+      <Filter>Header Files\OBJ\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Ripper.h">
+      <Filter>Header Files\OBJ\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Rocket_Item.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Sknee.h">
+      <Filter>Header Files\OBJ\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Zeb.h">
+      <Filter>Header Files\OBJ\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Zoomer.h">
+      <Filter>Header Files\OBJ\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb_Item.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="LongBeam.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="TuBe.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="MaruMari.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="QTree.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Lave.h">
+      <Filter>Header Files\OBJ\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletOfSkree.h">
+      <Filter>Header Files\OBJ\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Header Files\OBJ\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundGame.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletBoss.h">
+      <Filter>Header Files\OBJ\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSound.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaveFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dxaudio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="Colision.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayObject.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSprite.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsDevice.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="InputGame.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MetroidChacracter.cpp">
+      <Filter>Source Files\OBJ\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Rio.cpp">
+      <Filter>Source Files\OBJ\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Ripper.cpp">
+      <Filter>Source Files\OBJ\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Rocket_Item.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Sknee.cpp">
+      <Filter>Source Files\OBJ\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Zeb.cpp">
+      <Filter>Source Files\OBJ\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Zoomer.cpp">
+      <Filter>Source Files\OBJ\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb_Item.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="LongBeam.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Lave.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="TuBe.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="MaruMari.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="QTree.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletOfSkree.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\OBJ\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundGame.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletBoss.cpp">
+      <Filter>Source Files\OBJ\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSound.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaveFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dxaudio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
