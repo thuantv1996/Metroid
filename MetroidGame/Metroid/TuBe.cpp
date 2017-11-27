@@ -3,6 +3,7 @@
 
 TuBe::TuBe()
 {
+	this->_type = TUBE;
 }
 
 
@@ -14,6 +15,7 @@ void TuBe::Init()
 {
 	_width = 32;
 	_height = 16;
+	isDead = false;
 }
 void TuBe::Update(float time)
 {
@@ -33,5 +35,7 @@ void TuBe::CreateZeb()
 	}
 	zeb = new Zeb();
 	zeb->Create(XCenter() + 8, _y, 16, 16);
+	zeb->Init();
 	// them zeb vao list camera
+	Camera::getInstance()->AddObject(zeb);
 }

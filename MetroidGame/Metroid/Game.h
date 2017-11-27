@@ -25,7 +25,7 @@ public:
 	Game();
 	~Game();
 	bool Init(HWND hWnd, HINSTANCE instance);
-	void Run();
+	void Run(float gametime);
 	void Update();
 	void Draw();
 public:

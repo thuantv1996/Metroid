@@ -1,15 +1,13 @@
 #include "BulletBoss.h"
 
 
-BulletBoss::BulletBoss(int x, int y, float speed, float angle)
+BulletBoss::BulletBoss(int x, int y, float speedx, float speedy)
 {
 	_type = BULLET;
-	Speed = speed;
-	Angle = angle;
 	tTime = 0;
 	Create(x, y, 7, 8);
-	_vx = speed*cos(Angle);
-	_vy = -speed;
+	_vx = speedx;
+	_vy = speedy;
 	img.Create("src//img//boss//bullet_boss.png", 28, 8, 4, 1.0f / 24, RIGHT);
 	Camera::getInstance()->AddObject(this);
 }
@@ -27,7 +25,7 @@ void BulletBoss::Update(float time)
 		isDead = true;
 		return;
 	}
-	_vy+=3;
+	_vy+=5;
 	_x += this->_vx*time;
 	_y += _vy*time;
 }

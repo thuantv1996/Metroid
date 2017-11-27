@@ -1,51 +1,8 @@
-﻿Build started 20/11/2017 3:18:10 PM.
-     1>Project "D:\Project\Game\MetroidGame\Metroid\Metroid.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-         c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Project\Game\MetroidGame\Debug\Metroid.exe" /INCREMENTAL /NOLOGO dxerr.lib dinput8.lib dsound.lib dxguid.lib winmm.lib d3d9.lib d3dx9.lib dinput8.lib dxguid.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Project\Game\MetroidGame\Debug\Metroid.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Project\Game\MetroidGame\Debug\Metroid.lib" /MACHINE:X86 Debug\Animation.obj
-         Debug\Background.obj
-         Debug\BackgroundGame.obj
-         Debug\Bomb_Item.obj
-         Debug\Boss.obj
-         Debug\Bullet.obj
-         Debug\BulletBoss.obj
-         Debug\BulletOfSkree.obj
-         Debug\Camera.obj
-         Debug\Colision.obj
-         Debug\CWaveFile.obj
-         Debug\Door.obj
-         Debug\dxaudio.obj
-         Debug\Game.obj
-         Debug\GameplayObject.obj
-         Debug\GameSound.obj
-         Debug\GameSprite.obj
-         Debug\GameTime.obj
-         Debug\GraphicsDevice.obj
-         Debug\Ground.obj
-         Debug\InputGame.obj
-         Debug\Lave.obj
-         Debug\LongBeam.obj
-         Debug\main.obj
-         Debug\Map.obj
-         Debug\MaruMari.obj
-         Debug\MetroidChacracter.obj
-         Debug\Node.obj
-         Debug\QTree.obj
-         Debug\Rio.obj
-         Debug\Ripper.obj
-         Debug\Rocket_Item.obj
-         Debug\Sknee.obj
-         Debug\Sound.obj
-         Debug\TuBe.obj
-         Debug\Wall.obj
-         Debug\Zeb.obj
-         Debug\Zoomer.obj
-         Metroid.vcxproj -> D:\Project\Game\MetroidGame\Debug\Metroid.exe
-     1>Done Building Project "D:\Project\Game\MetroidGame\Metroid\Metroid.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:03.74
+﻿  Map.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+d:\project\game\git\metroid\metroidgame\metroid\map.cpp(197): warning C4018: '<': signed/unsigned mismatch
+  Game.cpp
+  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Generating Code...
+  Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Debug\Metroid.exe
+  Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Debug\Metroid.pdb (Full PDB)

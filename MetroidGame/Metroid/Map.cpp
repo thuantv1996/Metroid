@@ -178,6 +178,7 @@ Node* Map::LoadObjectFromFile(char* file_name)
 
 void Map::ColisionCamera(Node* r,float time)
 {
+	
 	if (!CColision::collision(Camera::getInstance(), r))
 	{
 		return;
@@ -197,6 +198,10 @@ void Map::ColisionCamera(Node* r,float time)
 	{
 		if (!r->lst[i])
 			continue;
+		if (!CColision::collision(Camera::getInstance(), r->lst[i]))
+		{
+			continue;
+		}
 		if (!Camera::getInstance()->findObject(r->lst[i]))
 		{
 			Camera::getInstance()->AddObject(r->lst[i]);

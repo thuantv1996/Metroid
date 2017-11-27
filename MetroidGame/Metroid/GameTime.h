@@ -1,19 +1,22 @@
 #pragma once
-#include<Windows.h>
+#ifndef __GAME_TIME__
+#define __GAME_TIME__
+
+#include <Windows.h>
+
 class GameTime
 {
 public:
-	static GameTime* getInstance();
-	float curentTime;
-	float totalTime;
-	bool Init();
-	void Run();
-	GameTime();
-	~GameTime();
+    void StartCounter();
+    float GetCouter();
+    static GameTime* GetInstance();
+    ~GameTime();
+
 private:
-	static GameTime* instance;
-	void Update();
-	float start;
-	float frequency;
+    GameTime();
+    LARGE_INTEGER mStartTime, mEndTime, mDelta, mClockRate;
+    static GameTime *mInstance;
 };
+
+#endif
 

@@ -1,6 +1,5 @@
 #include<Windows.h>
 #include"Game.h"
-#include"GameSound.h"
 #include"public_values.h"
 /*prototype function*/
 bool GenerateWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle, int width, int height,HWND& hWnd);
@@ -14,30 +13,36 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	HWND hWnd;
 	if (GenerateWindow(hInstance, nCmdShow, "MyWindow", "MyGame", 550, 550,hWnd))
 	{
-		
-		if (myGame->Init(hWnd,hInstance))
+		MSG msg;
+
+		float tickPerFrame = 1.0f / 60, delta = 0;
+		if (myGame->Init(hWnd, hInstance))
 		{
-			GameSound::getInstance()->initialize(hWnd);
-			//GameSound::getInstance()->play("a.mp3", true, true);
-			MSG msg;
-			ZeroMemory(&msg, sizeof(msg));
 			while (true)
 			{
-				while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+				GameTime::GetInstance()->StartCounter();
+
+				if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 				{
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}
-				if (msg.message == WM_QUIT)
-					break;
+
+				delta += GameTime::GetInstance()->GetCouter();
+
+				if (delta >= tickPerFrame)
+				{
+					myGame->Run(delta);
+					delta = 0;
+				}
 				else
 				{
-					// run game in here
-					myGame->Run();
-					
+					Sleep(tickPerFrame - delta);
+					delta = tickPerFrame;
 				}
-				
 			}
+			
+			
 		}
 		delete myGame;
 	}

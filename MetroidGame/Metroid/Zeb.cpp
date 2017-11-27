@@ -13,7 +13,7 @@ Zeb::~Zeb()
 
 void Zeb::Init()
 {
-	Action.Create("src//img//enemy//zeb//Zeb.png",18,18,2,1.0f/60,RIGHT);
+	Action.Create("src//img//enemy//zeb//Zeb.png",16,16,2,1.0f/60,LEFT);
 	isAttack = false;
 	_width = 18;
 	_height = 18;

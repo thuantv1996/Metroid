@@ -23,21 +23,17 @@ void MetroidChacracter::Init(HINSTANCE hInstance, HWND hWnd)
 {
 	this->hInstance = hInstance;
 	this->hWindown = hWnd;
-	this->_type = Player;
+	this->InitKeyboard(hInstance, hWnd);
 	filename = PATH;
-	this->normalx = 0;
-	this->normaly = 0;
 	this->_direct = RIGHT;
 	this->lstAction = new Animation[15];
-	this->InitKeyboard(hInstance, hWnd);
-	this->yDraw = _y - 5;
 	SetListAction();
 	Begin();
 	Ve = 0;
 	isbt = false;
 	isFall = false;
 	isGround = true;
-	isStop = false;
+	isStop = true;
 	isJumming = false;
 	count_time_bt = 0;
 	numberRocket = 0;
@@ -60,75 +56,60 @@ void MetroidChacracter::SetListAction()
 	lstAction[ATTACK].Create(filename + "attack.png", 19, 32, 1, 1, RIGHT);
 	lstAction[JUM_ATTACK].Create(filename + "jum_attack.png", 25, 25, 1, 1, RIGHT);
 }
-void MetroidChacracter::UpdateAction()
-{
-	if (lstAction[curAction].NextFrame(GameTime::getInstance()->curentTime) == 0)
-	{
-		isAction = false;
-	}
-	else
-	{
-		isAction = true;
-		return;
-	}
-}
 void MetroidChacracter::UpdatePosition(float time)
 {
 	if (curAction == BEGIN&& lstAction[curAction].NextFrame(time)==0)
 	{
 		Stop();
 	}
-	isGround = false;
-	isStop = false;
-	if (isJumming || isFall)
+	// xet van toc ban dau
+	if (!isJumming)
 	{
-		_vy += 3;
-	}
-	if (_vy > 0)
-	{
-		isFall = true;
-	}
-	for (int i = 0; i < Camera::getInstance()->GetListGround().size(); i++)
-	{
-		float nx = 0;
-		float ny = 0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListGround()[i], nx, ny, time) != 1 ||
-			CColision::mSweptAABB(Camera::getInstance()->GetListGround()[i], this, nx, ny, time) != 1)
-		{
-			OnCollision(Camera::getInstance()->GetListGround()[i], nx, ny);
-		}
-	}
-	// xét va chạm giửa char vs ground
-	for (int i = 0; i < Camera::getInstance()->GetListItem().size(); i++)
-	{
-		float nx = 0;
-		float ny = 0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListItem()[i], nx, ny, time) != 1 ||
-			CColision::mSweptAABB(Camera::getInstance()->GetListItem()[i], this, nx, ny, time) != 1)
-		{
-			OnCollision(Camera::getInstance()->GetListItem()[i], nx, ny);
-		}
-	}
-
-	if (isGround)
-	{
-		_vy = 0;
+		_vy = 10;
 	}
 	else
 	{
-		isFall = true;
+		_vy += GRAVITY;
 	}
-	if (isStop)
+	// va cham
+	for (int i = 0; i < Camera::getInstance()->GetListEnemy().size(); i++)
+	{
+		float nx=0, ny=0;
+		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListEnemy()[i], nx, ny, time)||
+			CColision::mSweptAABB(Camera::getInstance()->GetListEnemy()[i],this, nx, ny, time))
+		{
+			this->OnCollision(Camera::getInstance()->GetListEnemy()[i], nx, ny);
+		}
+	}
+	for (int i = 0; i < Camera::getInstance()->GetListItem().size(); i++)
+	{
+		float nx = 0, ny = 0;
+		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListItem()[i], nx, ny, time))
+		{
+			this->OnCollision(Camera::getInstance()->GetListItem()[i], nx, ny);
+		}
+	}
+	for (int i = 0; i < Camera::getInstance()->GetListGround().size(); i++)
+	{
+		float nx = 0, ny = 0;
+		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListGround()[i], nx, ny, time))
+		{
+			this->OnCollision(Camera::getInstance()->GetListGround()[i], nx, ny);
+		}
+	}
+	
+	// update vi tri
+	if(isStop)
 	{
 		_vx = 0;
 	}
-
-	_dx = _vx*time;
-	_dy = (_vy + _a)*time;
-	_x += _dx;
-	_y += _dy;
-
-
+	if (isGround)
+	{
+		_vy = 0;
+		_y = ground._y - _height-2;
+	}
+	_x += _vx*time;
+	_y += _vy*time;
 	if (isbt)
 	{
 		count_time_bt += time;
@@ -154,11 +135,6 @@ void MetroidChacracter::Draw(float time)
 	}
 
 	lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y-yDraw, 0), _direct, time);
-
-	if (mybullet)
-	{
-		mybullet->Draw(time);
-	}
 }
 void MetroidChacracter::Update(float time)
 {
@@ -281,7 +257,10 @@ void MetroidChacracter::OnKeyUp(int KeyCode)
 }
 void MetroidChacracter::OnKeyDown(int KeyCode)
 {
-	UpdateAction();
+	if (curAction == BEGIN)
+	{
+		return;
+	}
 	switch (KeyCode)
 	{
 	case DIK_Z:
@@ -420,16 +399,29 @@ void MetroidChacracter::OnCollision(GameplayObject* o, float nx, float ny)
 			{
 				isJumming = false;
 				Stop();
-				_y = o->_y - _height;
+				ground.Create(o->_x, o->_y, o->_width, o->_height);
+				isGround = true;
 			}
 		}
-		if (isFall)
+		else
+			if (Bottom() <= o->_y)
+			{
+				isGround = true;
+				ground.Create(o->_x, o->_y, o->_width, o->_height);
+			}
+		break;
+	case WALL:
+
+		if (Bottom() < o->_y)
 		{
-			isFall = false;
-			_y = o->_y - _height;
+			isGround = true;
+			wall.Create(o->_x, o->_y, o->_width, o->_height);
+			return;
 		}
-		isGround = true;
-		
+		if (o->YCenter() > Top() && o->YCenter() < Bottom())
+		{
+			isStop = true;
+		}
 		break;
 	case BOMB:
 		o->isDead = true;
@@ -440,18 +432,7 @@ void MetroidChacracter::OnCollision(GameplayObject* o, float nx, float ny)
 	case MARU:
 		o->isDead = true;
 		break;
-	case WALL:
-
-		if (o->_y == Bottom())
-		{
-			isGround = true;
-			return;
-		}
-		if (o->YCenter() > Top() && o->YCenter() < Bottom())
-		{
-			isStop = true;
-		}
-		break;
+	
 	case DOOR:
 		if (nx == 1)// left
 		{

@@ -79,11 +79,11 @@ void Boss::Attack()
 }
 void Boss::CreateBullet()
 {
-	bullet = new BulletBoss(Right(), YCenter(), 70, 3.14 / 6);
-	bullet = new BulletBoss(Right(), YCenter(), 70, 3.14 / 4);
-	bullet = new BulletBoss(Right(), YCenter(), 70, 3.14 / 5);
-	bullet = new BulletBoss(Right(), YCenter(), 70, 3.14 / 7);
-	bullet = new BulletBoss(Right(), YCenter(), 70, 3.14 / 3);
+	bullet = new BulletBoss(Right(), YCenter(), 50,-70);
+	bullet = new BulletBoss(Right(), YCenter(), 60,-70);
+	bullet = new BulletBoss(Right(), YCenter(), 70,-70);
+	bullet = new BulletBoss(Right(), YCenter(), 40,-70);
+	bullet = new BulletBoss(Right(), YCenter(), 30,-70);
 	
 }
 void Boss::OnCollision(GameplayObject* o, float nx, float ny)

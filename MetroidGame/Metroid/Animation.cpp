@@ -41,10 +41,10 @@ void Animation::Draw(D3DXVECTOR3 position, Direct d,float time)
 {
 	int wf = width / numberFrame;
 	//lay khung ve
-	D3DXVECTOR4 pos;
+	/*D3DXVECTOR4 pos;
 	D3DXVec3Transform(&pos, &position, &Camera::getInstance()->getMatrix());
 	position.x = pos.x;
-	position.y = pos.y;
+	position.y = pos.y;*/
 	RECT rect;
 	rect.left = index*wf;
 	rect.top = 0;

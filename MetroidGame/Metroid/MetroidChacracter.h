@@ -11,7 +11,7 @@ class Animation;
 class Bullet;
 
 #define VELOCITYX 90.0f
-#define VELOCITYJUM 130.0f
+#define VELOCITYJUM 110.0f
 #define VELOCITYY 100.0f
 #define GRAVITY 2.0f
 
@@ -77,13 +77,15 @@ private:
 	int Ve;
 	int HP;
 	float time_update;
+
+	GameplayObject ground;
+	GameplayObject wall;
 public:
 	static MetroidChacracter* getInstance();
 	MetroidChacracter();
 	~MetroidChacracter();
 	void SetListAction();
 	void Init(HINSTANCE,HWND);
-	void UpdateAction();
 	void UpdatePosition(float time);
 	void Draw(float time);
 	void Update(float time);
