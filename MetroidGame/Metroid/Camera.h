@@ -24,13 +24,10 @@ public:
 	void Update(float time);
 	void Draw(float time);
 	void OnCollision(GameplayObject* o,float nx,float ny);
-	RECT getRect();
 	vector<GameplayObject*> GetListItem();
 	vector<GameplayObject*> GetListEnemy();
 	vector<GameplayObject*> GetListGround();
-	bool findObject(GameplayObject* o);// tra ve true neu obj do co trong lst
 	void AddObject(GameplayObject* o);
-	void DeleteObject();
 	void UpdateObject(float time);
 	D3DXMATRIX getMatrix();
 private:

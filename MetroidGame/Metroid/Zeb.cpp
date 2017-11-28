@@ -17,7 +17,7 @@ void Zeb::Init()
 	isAttack = false;
 	_width = 18;
 	_height = 18;
-	_vy = -VY_ZEB;
+	_vy = VY_ZEB;
 	_vx = 0;
 }
 void Zeb::Update(float time)

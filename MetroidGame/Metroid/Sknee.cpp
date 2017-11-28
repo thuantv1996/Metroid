@@ -75,10 +75,10 @@ void Sknee::OnCollision(GameplayObject* obj, int nx, int ny)
 	case GROUND:
 		isDead = true;
 		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), 60, 0);
-		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), 45, -45);
-		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), 0, -60);
+		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), 45, 45);
+		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), 0, 60);
 		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), -60, 0);
-		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), -45, -45);
+		skree_bullet = new BulletOfSkree(XCenter(), Bottom(), -45, 45);
 		// viet ham tao ra dan no;
 		break;
 	default:

@@ -17,10 +17,10 @@ bool Game::Init(HWND hWnd, HINSTANCE instance)
 	}
 	GameSprite::getInstance()->Init(GraphicsDevice::GetInstance()->device);
 	BackgroundGame::getInstance()->Init("TitleMaps.txt", 256, 256);
-	Camera::getInstance()->Create(512, 3120, 256, 250);
-	MetroidChacracter::getInstance()->Create( 100, 100, 10, 29);
+	Camera::getInstance()->Create(100, 100, 256, 250);
+	MetroidChacracter::getInstance()->Create( 120, 80, 10, 29);
 	MetroidChacracter::getInstance()->Init(hInstance, hWnd);
-	Root=Map::LoadObjectFromFile("object.txt");
+	//Root=Map::LoadObjectFromFile("object.txt");
 	//b = new Boss();
 	//b->Create(490, 3280, 0, 0);
 	//b->Init();
@@ -42,7 +42,7 @@ void Game::Update()
 	Camera::getInstance()->Update(totalTime);
 	//b->Update(totalTime);
 	// thêm đối tượng vào camera
-	Map::ColisionCamera(Root,totalTime);
+	//Map::ColisionCamera(Root,totalTime);
 	// xét va chạm giửa enemy vs ground
 }
 

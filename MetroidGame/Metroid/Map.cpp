@@ -202,10 +202,7 @@ void Map::ColisionCamera(Node* r,float time)
 		{
 			continue;
 		}
-		if (!Camera::getInstance()->findObject(r->lst[i]))
-		{
 			Camera::getInstance()->AddObject(r->lst[i]);
-		}
 	}
 
 }

@@ -1,8 +1,23 @@
-﻿  Map.cpp
+﻿cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
+  MetroidChacracter.cpp
   c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\project\game\git\metroid\metroidgame\metroid\map.cpp(197): warning C4018: '<': signed/unsigned mismatch
-  Game.cpp
-  c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Generating Code...
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(75): warning C4018: '<': signed/unsigned mismatch
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(84): warning C4018: '<': signed/unsigned mismatch
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(92): warning C4018: '<': signed/unsigned mismatch
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(402): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(410): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(418): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(826): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(827): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(833): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(834): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(840): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(844): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(855): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(856): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(860): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(861): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(867): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\metroidchacracter.cpp(871): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Debug\Metroid.exe
   Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Debug\Metroid.pdb (Full PDB)

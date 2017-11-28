@@ -6,7 +6,7 @@
 #define WIDTH_SKNEE 18
 #define HEIGHT_SKNEE 26
 #define VX_SKNEE 70
-#define VY_SKNEE 80
+#define VY_SKNEE -80
 #define	PATH_SKNEE "src//img//enemy//sknee//sknee.png"
 class Animation;
  

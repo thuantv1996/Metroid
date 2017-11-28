@@ -43,20 +43,19 @@ void Camera::Update(float time)
 	_x += _vx*time;
 	_y += _vy*time;
 	// xet nhung vi tri ma tai do camera khong the di chuyen duoc nua
-	if (_y <= 240)
+	/*if (_y <= 240)
 	{
 		_y = 240;
 	}
 	if (_x <= 256)
 	{
 		_x = 256;
-	}
+	}*/
 	mt._41 = - _x;
-	mt._42 = -_y;
+	mt._42 = _y;
+	mt._22 = -1;
 	// update object
 	UpdateObject(time);
-	// delete obj
-	DeleteObject();
 }
 void Camera::Draw(float time)
 {
@@ -74,15 +73,7 @@ void Camera::OnCollision(GameplayObject* o,float nx,float ny)
 {
 	// code va cham
 }
-RECT Camera::getRect()
-{
-	RECT r;
-	r.left = _x;
-	r.top = _y;
-	r.right = r.left + _width;
-	r.bottom = r.top + _height;
-	return r;
-}
+
 vector<GameplayObject*> Camera::GetListItem()
 {
 	return lstItem;
@@ -94,31 +85,6 @@ vector<GameplayObject*> Camera::GetListEnemy()
 vector<GameplayObject*> Camera::GetListGround()
 {
 	return lstGround;
-}
-bool Camera::findObject(GameplayObject* o)
-{
-	for (int i = 0; i < lstItem.size(); i++)
-	{
-		if (o == lstItem[i])
-		{
-			return true;
-		}
-	}
-	for (int i = 0; i < lstEnemy.size(); i++)
-	{
-		if (o == lstEnemy[i])
-		{
-			return true;
-		}
-	}
-	for (int i = 0; i < lstGround.size(); i++)
-	{
-		if (o == lstGround[i])
-		{
-			return true;
-		}
-	}
-	return false;
 }
 void Camera::AddObject(GameplayObject* o)
 {
@@ -145,55 +111,6 @@ void Camera::AddObject(GameplayObject* o)
 	case ZEB:
 		lstEnemy.push_back(o);
 		break;
-	}
-}
-void Camera::DeleteObject()
-{
-	for (int i = 0; i < lstItem.size(); i++)
-	{
-		if (lstItem[i]->isDead)
-		{
-			delete(lstItem[i]);
-			lstItem.erase(lstItem.begin() + i);
-			i--;
-			continue;
-		}
-		float nx = 0, ny = 0;
-		if (!CColision::mSweptAABB(this, lstItem[i], nx, ny,1.0f/24))
-		{
-			lstItem.erase(lstItem.begin() + i);
-			i--;
-		}
-	}
-	for (int i = 0; i < lstEnemy.size(); i++)
-	{
-		if (lstEnemy[i]->isDead)
-		{
-			delete(lstEnemy[i]);
-			lstEnemy.erase(lstEnemy.begin() + i);
-			i--;
-			continue;
-		}
-		float nx = 0, ny = 0;
-		if (!CColision::mSweptAABB(this, lstEnemy[i], nx, ny, 1.0f / 24))
-		{
-			lstEnemy[i]->_x = lstEnemy[i]->_xOld;
-			lstEnemy[i]->_y = lstEnemy[i]->_yOld;
-			lstEnemy[i]->Init();
-			lstItem.erase(lstEnemy.begin() + i);
-			i--;
-			
-		}
-
-	}
-	for (int i = 0; i < lstGround.size(); i++)
-	{
-		float nx = 0, ny = 0;
-		if (!CColision::mSweptAABB(this, lstGround[i], nx, ny, 1.0f / 24))
-		{
-			lstGround.erase(lstGround.begin() + i);
-			i--;
-		}
 	}
 }
 void Camera::UpdateObject(float time)

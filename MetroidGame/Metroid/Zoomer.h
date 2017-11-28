@@ -17,7 +17,7 @@ enum ZoomerStatus{
 #define WIDTH_ZOOMER
 #define HEIGHT_ZOOMER 
 #define VX_ZOOMER 30
-#define VY_ZOOMER 30
+#define VY_ZOOMER -30
 
 class Animation;
 class Zoomer :

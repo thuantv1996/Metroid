@@ -32,7 +32,7 @@ void MetroidChacracter::Init(HINSTANCE hInstance, HWND hWnd)
 	Ve = 0;
 	isbt = false;
 	isFall = false;
-	isGround = true;
+	isGround = false;
 	isStop = true;
 	isJumming = false;
 	count_time_bt = 0;
@@ -65,11 +65,11 @@ void MetroidChacracter::UpdatePosition(float time)
 	// xet van toc ban dau
 	if (!isJumming)
 	{
-		_vy = 10;
+		_vy = 0;
 	}
 	else
 	{
-		_vy += GRAVITY;
+		_vy -= GRAVITY;
 	}
 	// va cham
 	for (int i = 0; i < Camera::getInstance()->GetListEnemy().size(); i++)
@@ -99,14 +99,14 @@ void MetroidChacracter::UpdatePosition(float time)
 	}
 	
 	// update vi tri
-	if(isStop)
+	/*if(isStop)
 	{
 		_vx = 0;
-	}
+	}*/
 	if (isGround)
 	{
 		_vy = 0;
-		_y = ground._y - _height-2;
+		_y = ground._y + _height+2;
 	}
 	_x += _vx*time;
 	_y += _vy*time;
@@ -269,7 +269,7 @@ void MetroidChacracter::OnKeyDown(int KeyCode)
 		{
 			Jum();
 			_vx = 0;
-			_vy = -VELOCITYJUM;
+			_vy = VELOCITYJUM;
 			isJumming = true;
 			break;
 		}
@@ -277,14 +277,14 @@ void MetroidChacracter::OnKeyDown(int KeyCode)
 		{
 			JumUp();
 			isJumming = true;
-			_vy = -VELOCITYJUM;
+			_vy = VELOCITYJUM;
 			break;
 		}
 		if (curAction == RUN)
 		{
 			JumRoll();
 			isJumming = true;
-			_vy = -VELOCITYJUM;
+			_vy = VELOCITYJUM;
 			break;
 		}
 		break;
