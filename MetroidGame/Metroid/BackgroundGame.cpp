@@ -46,29 +46,31 @@ void BackgroundGame::Init(char* file, int ws, int hs)
 }
 void BackgroundGame::Draw()
 {
-	//// lay toa do cam
-	//int xCam = Camera::getInstance()->_x;
-	//int yCam = Camera::getInstance()->_y;
-	//// tinh vi tri bat dau ve
-	//int icDraw = xCam / wTitle;
-	//int irDraw = yCam / hTitle;
-	//// lay phan ve va ve
-	//for (int i = irDraw; i < irDraw + rDraw+1; i++)
-	//{
-	//	for (int j = icDraw; j < icDraw + cDraw+1; j++)
-	//	{
-	//		// lay vung ve
-	//		RECT r;
-	//		r.left = mtBackground[i][j] *wTitle;
-	//		r.right = r.left + wTitle;
-	//		r.top = 0;
-	//		r.bottom = hTitle;
-	//		// lay toa do ve;
-	//		int yDraw = i*hTitle;
-	//		int xDraw = j*wTitle;
-	//		xDraw -= Camera::getInstance()->_x;
-	//		yDraw -= Camera::getInstance()->_y;
-	//		GameSprite::getInstance()->Draw(titleMap, &r, D3DXVECTOR3(xDraw, yDraw, 0));
-	//	}
-	//}
+	// lay toa do cam
+	int xCam = Camera::getInstance()->_x;
+	int yCam = Camera::getInstance()->_y;
+	// tinh vi tri bat dau ve
+	int icDraw = xCam / wTitle;
+	int irDraw = (yCam- hScreen) / hTitle;
+	// doi he truc
+	int br = row - 1 - irDraw;
+	// lay phan ve va ve
+	for (int i = br; i >= br - rDraw-1; i--)
+	{
+		for (int j = icDraw; j < icDraw + cDraw+1; j++)
+		{
+			// lay vung ve
+			RECT r;
+			r.left = mtBackground[i][j] *wTitle;
+			r.right = r.left + wTitle;
+			r.top = 0;
+			r.bottom = hTitle;
+			// lay toa do ve;
+			int yDraw = hBackground-i*hTitle;
+			int xDraw = j*wTitle;
+			xDraw -= Camera::getInstance()->_x;
+			yDraw = Camera::getInstance()->_y- yDraw;
+			GameSprite::getInstance()->Draw(titleMap, &r, D3DXVECTOR3(xDraw, yDraw, 0));
+		}
+	}
 }

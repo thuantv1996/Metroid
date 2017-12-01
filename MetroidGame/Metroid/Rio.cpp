@@ -1,5 +1,5 @@
 #include "Rio.h"
-
+#include"ImgDeath.h"
 
 Rio::Rio()
 {
@@ -19,6 +19,7 @@ void Rio::Init()
 	_width = 26;
 	_height = 21;
 	curAction = 0;
+	HP = 15;
 }
 void Rio::Update(float time)
 {
@@ -42,6 +43,14 @@ void Rio::Update(float time)
 	{
 		_vy *= -1;
 	}
+	float nx = 0, ny = 0;
+	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
+	{
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny,time)!=1.0f)
+		{
+			OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
+		}
+	}
 	_dx = _vx*time;
 	_dy = _vy*time;
 	_x += _dx;
@@ -61,6 +70,7 @@ void Rio::OnCollision(GameplayObject* obj, int nx, int ny)
 		if (HP == 0)
 		{
 			this->isDead = true;
+			ImgDeath::getInstance()->Set(XCenter(), YCenter());
 		}
 		break;
 	case GROUND:

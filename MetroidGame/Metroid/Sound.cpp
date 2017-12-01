@@ -1,139 +1,243 @@
 #include "Sound.h"
 
-#if MEMORY_LEAK_DEBUG == 1
-#include <vld.h>
-#endif
+Sound* Sound::instance = 0;
 
-WAVEFORMATEX Sound::bufferFormat_;
-DSBUFFERDESC Sound::bufferDescription_;
-LPDIRECTSOUND8 Sound::audioHandler_;
-HWND Sound::windowsHandler_;
-
-// -----------------------------------------------
-// Name: T6_Sound::T6_Sound()
-// Desc: Get the audio Name and Path, ready to load.
-// -----------------------------------------------
-Sound::Sound(const char* audioPath)
+Sound* Sound:: getInstance()
 {
-	loadAudio(audioPath);
+	if (!instance)
+	{
+		instance = new Sound();
+	}
+	return instance;
 }
-
-
-
-Sound::~Sound(void)
+Sound::Sound()
 {
-	soundBuffer_->Stop();
 }
-
-
-// -----------------------------------------------
-// Name: T6_Sound::initializeSoundClass()
-// Desc: Initialize the basic PROPERTIESs for loading audio
-// -----------------------------------------------
-HRESULT Sound::initializeSoundClass(HWND windowsHandler)
+void Sound::Init(HWND hWnd)
 {
-	windowsHandler_ = windowsHandler;
-
+	primaryBuffer = 0;
 	HRESULT result;
-	result = DirectSoundCreate8(0, &audioHandler_, 0);
-	result = result | audioHandler_->SetCooperativeLevel(windowsHandler_, DSSCL_PRIORITY);
 
-	ZeroMemory(&bufferFormat_, sizeof(WAVEFORMATEX));
-	ZeroMemory(&bufferDescription_, sizeof(DSBUFFERDESC));
+	DSBUFFERDESC bufferDesc; //describe the buffer
 
-	bufferFormat_.wFormatTag = AUDIO_FORMAT_TAG;
-	bufferFormat_.nChannels = AUDIO_NUM_OF_CHANNEL;
-	bufferFormat_.nSamplesPerSec = AUDIO_SAMPLE_SPEED;
-	bufferFormat_.wBitsPerSample = AUDIO_BITS_PER_SAMPLE;
-	bufferFormat_.nBlockAlign = AUDIO_BLOCK_ALIGN(bufferFormat_.wBitsPerSample,
-		bufferFormat_.nChannels);
-	bufferFormat_.nAvgBytesPerSec = AUDIO_AVERAGE_BPS(bufferFormat_.nSamplesPerSec,
-		bufferFormat_.nBlockAlign);
+	result = DirectSoundCreate8(NULL, &pDevice, NULL);
 
-	bufferDescription_.dwFlags = AUDIO_FLAGS;
-	bufferDescription_.guid3DAlgorithm = AUDIO_GUID;
-	bufferDescription_.dwSize = sizeof(DSBUFFERDESC);
+	result = pDevice->SetCooperativeLevel(hWnd, DSSCL_PRIORITY); // set the cooperative level.
 
-	return result;
+	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
+	bufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME;
+	bufferDesc.dwBufferBytes = 0;
+	bufferDesc.dwReserved = 0;
+	bufferDesc.lpwfxFormat = NULL;
+	bufferDesc.guid3DAlgorithm = GUID_NULL;
+
+	result = pDevice -> CreateSoundBuffer(&bufferDesc, &primaryBuffer, NULL);
+	volume = 100.0f;
+	isMute = false;
 }
 
-
-// -----------------------------------------------
-// Name: T6_Sound::releaseSoundClass()
-// Desc: Release the basic PROPERTIES after used (close game).
-// -----------------------------------------------
-HRESULT Sound::releaseSoundClass()
+Sound::~Sound()
 {
-	if (audioHandler_ != 0)
-		return audioHandler_->Release();
-
-	return S_OK;
-}
-
-
-// -----------------------------------------------
-// Name: T6_Sound::loadAudio()
-// Desc: Load the Audio stored in audioPath.
-// -----------------------------------------------
-wchar_t* convert(const char* str)
-{
-	int n = strlen(str);
-	wchar_t*s = new wchar_t[n+1];
-	for (int i = 0;i < n;i++)
-		s[i] = str[i];
-	s[n] = 0;
-	return s;
-}
-HRESULT Sound::loadAudio(const char* audioPath_)
-{
-	HRESULT result;
-	WaveFile audioObject;
-	result = audioObject.Open(LPTSTR(audioPath_), 0, 1);
-
-	if (!FAILED(result)) {
-
-		bufferDescription_.dwBufferBytes = audioObject.GetSize();
-		bufferDescription_.lpwfxFormat = audioObject.m_pwfx;
-
-		result = audioHandler_->CreateSoundBuffer(&bufferDescription_, &soundBuffer_, 0);
-
-		VOID* pointerToLockedBuffer = 0;
-		DWORD lockedSize = 0;
-		result = result | (soundBuffer_)->Lock(0, AUDIO_BUFFER_SIZE, &pointerToLockedBuffer,
-			&lockedSize, 0, 0, DSBLOCK_ENTIREBUFFER);
-
-		if (!FAILED(result)) {
-			DWORD readedData = 0;
-			audioObject.ResetFile();
-			result = audioObject.Read((BYTE*)pointerToLockedBuffer, lockedSize, &readedData);
-			if (!FAILED(result)) {
-				(soundBuffer_)->Unlock(pointerToLockedBuffer, lockedSize, 0, 0);
-			}
+	for (auto it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
+	{
+		if(it -> second)
+		{
+			it -> second -> Release();
+			it -> second = NULL;
 		}
+		
+	}
+	if(primaryBuffer)
+		primaryBuffer ->Release();
+	if(pDevice)
+		pDevice -> Release();
+	pDevice = NULL;
+	
+	primaryBuffer = NULL;
+
+	
+}
+
+
+float Sound :: getVolume()
+{
+	return volume;
+}
+
+void Sound :: loadSound(char* fileName, std:: string name)
+{
+	if(soundBufferMap.find(name) != soundBufferMap.end())
+		return;
+	FILE* filePtr;
+	WaveHeaderStruct waveHeaderStruct;
+	IDirectSoundBuffer* tempBuffer;
+	DSBUFFERDESC bufferDesc;
+	WAVEFORMATEX waveFormat;
+	unsigned char* wavData;
+	unsigned char* bufferPtr;
+	unsigned long bufferSize;
+
+	int error = fopen_s(&filePtr, fileName, "rb");
+	if(error != 0)
+	{
+		return ;
 	}
 
-	audioObject.Close();
-	return result;
+	fread(&waveHeaderStruct, sizeof(WaveHeaderStruct), 1, filePtr);
+	//fread(&waveFileHeader, sizeof(waveFileHeader), 1, filePtr);
+
+	if((waveHeaderStruct.format[0] != 'W') || (waveHeaderStruct.format[1] != 'A') ||
+	   (waveHeaderStruct.format[2] != 'V') || (waveHeaderStruct.format[3] != 'E'))
+	{
+		MessageBox(NULL," file format does not support:","Error",MB_OK);
+	}
+
+	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+	waveFormat.nSamplesPerSec = waveHeaderStruct.sampleRate;
+	waveFormat.wBitsPerSample = waveHeaderStruct.bitsPerSample;
+	waveFormat.nChannels = waveHeaderStruct.numChannels;
+	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
+	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+	waveFormat.cbSize = 0;
+
+	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
+	bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS;
+	bufferDesc.dwBufferBytes = waveHeaderStruct.dataSize;
+	bufferDesc.dwReserved = 0;
+	bufferDesc.lpwfxFormat = &waveFormat;
+	bufferDesc.guid3DAlgorithm = GUID_NULL;
+
+	IDirectSoundBuffer8* secondaryBuffer = 0;
+	IDirectSoundBuffer8** pSecondaryBuffer = &secondaryBuffer;
+	//IDirectSoundBuffer8
+
+	//long result = pDevice->CreateSoundBuffer(&bufferDesc, &secondaryBuffer, NULL);
+
+	pDevice->CreateSoundBuffer(&bufferDesc, &tempBuffer, NULL);
+
+	long result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void**)&(*pSecondaryBuffer));
+
+	tempBuffer->Release();
+	tempBuffer = 0;
+
+	if(FAILED(result))
+	{
+		return;
+	}
+
+	//fseek(filePtr, sizeof(WaveHeaderStruct), SEEK_SET); // move the filePointer cursor to data section
+
+	fseek(filePtr, sizeof(WaveHeaderStruct), SEEK_SET);
+
+
+	wavData = new unsigned char[ waveHeaderStruct.dataSize];
+
+	
+
+	fread(wavData, waveHeaderStruct.dataSize, 1, filePtr);
+
+	error = fclose(filePtr);
+
+
+	result = (*pSecondaryBuffer)->Lock(0, waveHeaderStruct.dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
+
+	if(FAILED(result))
+	{
+		return;
+	}
+
+	memcpy(bufferPtr, wavData, waveHeaderStruct.dataSize);
+
+	(*pSecondaryBuffer)->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
+
+	if(wavData != NULL)
+	delete wavData;
+	wavData = 0;
+	long tempVolume = (volume) / 100 *(- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+	(*pSecondaryBuffer) -> SetVolume(tempVolume);
+
+	soundBufferMap[name] = secondaryBuffer;
+
+
 }
 
-
-// -----------------------------------------------
-// T6_Sound::play()
-// Desc: Play loaded audio, may choose loop or no.
-// -----------------------------------------------
-HRESULT Sound::play(bool isLoop, DWORD priority)
+void Sound :: play(std:: string name, bool infiniteLoop, int times)
 {
-	return soundBuffer_->Play(0, priority, isLoop & DSBPLAY_LOOPING);
+	if(isMute)
+	{
+		return;
+	}
+	std::map< std::string, IDirectSoundBuffer8*> ::iterator it;
+	it = soundBufferMap.find(name);
+	if(it == soundBufferMap.end())
+		return;
+	if(infiniteLoop)
+	{
+		it -> second -> Play(0, 0 , DSBPLAY_LOOPING);
+	}
+	else
+	{
+		it -> second -> Stop();
+		it -> second -> SetCurrentPosition(0);
+		it -> second -> Play(0, 0, times - 1);
+	}
+
 }
 
-
-// -----------------------------------------------
-// T6_Sound:stop()
-// Desc: Stop the audio if it is playing.
-// -----------------------------------------------
-HRESULT Sound::stop()
+void Sound :: stop(std::string name)
 {
-	HRESULT result = soundBuffer_->Stop();
-	soundBuffer_->SetCurrentPosition(0);
-	return result;
+	if(name == "")
+	{
+		for ( std::map< std::string, IDirectSoundBuffer8*> ::iterator it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
+		{
+			it -> second ->Stop();
+			it -> second ->SetCurrentPosition(0);
+		}
+	}
+	else
+	{
+		std::map< std::string, IDirectSoundBuffer8*> ::iterator it;
+		it = soundBufferMap.find(name);
+		if(it == soundBufferMap.end())
+			return;
+		else it -> second ->Stop();
+	}
+}
+
+void Sound :: setVolume(float percentage, std:: string name)
+{
+	volume = percentage;
+	if(name == "")
+	{
+		long volumne = (percentage) / 100 *(- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		for ( std::map< std::string, IDirectSoundBuffer8*> ::iterator it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
+		{
+			it -> second ->SetVolume(volumne);
+		}
+	}
+	else
+	{
+		std::map< std::string, IDirectSoundBuffer8*> ::iterator it;
+		it = soundBufferMap.find(name);
+		if(it == soundBufferMap.end())
+			return;
+		long volumne = (percentage) / 100 *(- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		it -> second ->SetVolume(volumne);
+	}
+}
+
+void Sound :: mute()
+{
+	isMute = true;
+	Sound::getInstance() -> stop();
+}
+
+void Sound :: unMute()
+{
+	isMute = false;
+}
+
+void Sound :: cleanUp()
+{
+	delete this;
 }

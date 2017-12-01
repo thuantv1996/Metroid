@@ -1,8 +1,8 @@
 #pragma once
 #include "GameplayObject.h"
 #include"Animation.h"
-#define WIDTH_BOMB 18
-#define HEIGHT_BOMB 18
+#define WIDTH_BOMB 16
+#define HEIGHT_BOMB 16
 class Animation;
 class Bomb_Item :
 	public GameplayObject

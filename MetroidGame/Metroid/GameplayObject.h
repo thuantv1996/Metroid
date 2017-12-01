@@ -33,6 +33,7 @@ public:
 public:
 
 	void Create(int, int, int, int);
+	virtual void BeforeUpdate();
 	virtual void Update(float time);
 	virtual void Draw(float time);
 	virtual void OnCollision(GameplayObject* obj, int nx, int ny);

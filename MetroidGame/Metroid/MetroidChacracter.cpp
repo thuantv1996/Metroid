@@ -1,5 +1,5 @@
 ﻿#include "MetroidChacracter.h"
-
+#include"ImgDeath.h"
 
 MetroidChacracter::MetroidChacracter()
 {
@@ -16,7 +16,7 @@ MetroidChacracter* MetroidChacracter::getInstance()
 }
 MetroidChacracter::~MetroidChacracter()
 {
-	free(lstAction);
+	delete[] lstAction;
 }
 
 void MetroidChacracter::Init(HINSTANCE hInstance, HWND hWnd)
@@ -58,7 +58,7 @@ void MetroidChacracter::SetListAction()
 }
 void MetroidChacracter::UpdatePosition(float time)
 {
-	if (curAction == BEGIN&& lstAction[curAction].NextFrame(time)==0)
+	if (curAction == BEGIN && lstAction[curAction].NextFrame(time)==0)
 	{
 		Stop();
 	}
@@ -71,38 +71,16 @@ void MetroidChacracter::UpdatePosition(float time)
 	{
 		_vy -= GRAVITY;
 	}
-	// va cham
-	for (int i = 0; i < Camera::getInstance()->GetListEnemy().size(); i++)
-	{
-		float nx=0, ny=0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListEnemy()[i], nx, ny, time)||
-			CColision::mSweptAABB(Camera::getInstance()->GetListEnemy()[i],this, nx, ny, time))
-		{
-			this->OnCollision(Camera::getInstance()->GetListEnemy()[i], nx, ny);
-		}
-	}
-	for (int i = 0; i < Camera::getInstance()->GetListItem().size(); i++)
+	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
 	{
 		float nx = 0, ny = 0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListItem()[i], nx, ny, time))
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time)!=1 ||
+			CColision::mSweptAABB(Camera::getInstance()->listObjectOnCamera[i], this, nx, ny, time)!=1)
 		{
-			this->OnCollision(Camera::getInstance()->GetListItem()[i], nx, ny);
-		}
-	}
-	for (int i = 0; i < Camera::getInstance()->GetListGround().size(); i++)
-	{
-		float nx = 0, ny = 0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListGround()[i], nx, ny, time))
-		{
-			this->OnCollision(Camera::getInstance()->GetListGround()[i], nx, ny);
+			this->OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
 		}
 	}
 	
-	// update vi tri
-	/*if(isStop)
-	{
-		_vx = 0;
-	}*/
 	if (isGround)
 	{
 		_vy = 0;
@@ -129,12 +107,12 @@ void MetroidChacracter::Draw(float time)
 	{
 		if (Ve % 2 == 1)
 		{
-			lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y-yDraw, 0), _direct, time);
+			lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y+yDraw, 0), _direct, time);
 		}
 		return;
 	}
 
-	lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y-yDraw, 0), _direct, time);
+	lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y+yDraw, 0), _direct, time);
 }
 void MetroidChacracter::Update(float time)
 {
@@ -425,6 +403,7 @@ void MetroidChacracter::OnCollision(GameplayObject* o, float nx, float ny)
 		break;
 	case BOMB:
 		o->isDead = true;
+		ImgDeath::getInstance()->Set(o->XCenter(), o->YCenter());
 		break;
 	case BEAM:
 		o->isDead = true;
@@ -521,6 +500,19 @@ void MetroidChacracter::OnCollision(GameplayObject* o, float nx, float ny)
 			isDead = true;
 		}
 		break;
+	case BULLET_ENEMY:
+		if (!isbt)
+		{
+			isbt = true;
+			count_time_bt = 0;
+			Ve = 0;
+			HP -= 5;
+		}
+		if (HP <= 0)
+		{
+			isDead = true;
+		}
+		break;
 	default:
 		break;
 	}
@@ -539,18 +531,18 @@ void MetroidChacracter::Stop()
 	{
 		// Thay doi height
 		_height = 32;
-		_y -= 7;
+		_y += 7;
 	}else
 	if (curAction == JUM_ROLL)
 	{
 		_height = 32;
-		_y -= 9;
+		_y += 9;
 	}
 	else
 	if (curAction == ROLL)
 	{
 		_height = 32;
-		_y -= 19;
+		_y += 19;
 	}
 	if (_direct == RIGHT)
 	{
@@ -575,7 +567,7 @@ void MetroidChacracter::Up()
 	if (curAction == JUM_UP || curAction == JUM_UP_ATTACK)
 	{
 		curAction = UP;
-		_y -= 7;
+		_y += 7;
 	}
 	else
 	if (curAction == RUN_UP)
@@ -644,7 +636,7 @@ void MetroidChacracter::Jum()
 	xDraw = 7;
 	yDraw = 0;
 	_height = 25;
-	_y += 7;
+	_y -= 7;
 }
 void MetroidChacracter::JumUp()
 {
@@ -654,7 +646,7 @@ void MetroidChacracter::JumUp()
 	}
 	if (curAction == UP)
 	{
-		_y += 7;
+		_y -= 7;
 	}
 	curAction = JUM_UP;
 	xDraw = 4;
@@ -671,7 +663,7 @@ void MetroidChacracter::JumRoll()
 	xDraw = 0;
 	yDraw = 0;
 	_height = 23;
-	_y += 9;
+	_y -= 9;
 }
 void MetroidChacracter::Roll()
 {
@@ -680,7 +672,7 @@ void MetroidChacracter::Roll()
 		return;
 	}
 	curAction = ROLL;
-	_y += 19;
+	_y -= 19;
 	xDraw = 0;
 	yDraw = 0;
 	_height = 13;
@@ -705,11 +697,11 @@ void MetroidChacracter::Attack()
 	curAction = ATTACK;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(Right() + 3, _y+10, 100.0f, 0, false);
+		mybullet = new Bullet(Right() + 3, _y-10, 100.0f, 0, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Left() - 3,_y+ 10, -100.0f, 0, false);
+		mybullet = new Bullet(Left() - 3,_y - 10, -100.0f, 0, false);
 	}
 }
 void MetroidChacracter::RunAttack()
@@ -732,11 +724,11 @@ void MetroidChacracter::RunAttack()
 	curAction = RUN_ATTACK;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(Right() + 6, _y + 10, 100.0f, 0, false);
+		mybullet = new Bullet(Right() + 6, _y - 10, 100.0f, 0, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Left() - 6, _y + 10, -100.0f, 0, false);
+		mybullet = new Bullet(Left() - 6, _y - 10, -100.0f, 0, false);
 	}
 }
 void MetroidChacracter::JumAttack()
@@ -757,11 +749,11 @@ void MetroidChacracter::JumAttack()
 	curAction = JUM_ATTACK;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(Right() + 3, _y + 10, 100.0f, 0, false);
+		mybullet = new Bullet(Right() + 3, _y - 10, 100.0f, 0, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Left() - 3, _y + 10, -100.0f, 0, false);
+		mybullet = new Bullet(Left() - 3, _y - 10, -100.0f, 0, false);
 	}
 }
 void MetroidChacracter::RunUpAttack()
@@ -781,11 +773,11 @@ void MetroidChacracter::RunUpAttack()
 	yDraw = 6;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(_x + 12, _y - 10,0, -100.0f, false);
+		mybullet = new Bullet(_x + 12, _y + 10,0, -100.0f, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Right() - 12, _y - 10, 0,-100.0f, false);
+		mybullet = new Bullet(Right() - 12, _y + 10, 0,-100.0f, false);
 	}
 }
 void MetroidChacracter::JumUpAttack()
@@ -805,11 +797,11 @@ void MetroidChacracter::JumUpAttack()
 	xDraw = 4;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(_x + 8, _y - 10, 0, -100.0f, false);
+		mybullet = new Bullet(_x + 8, _y + 10, 0, -100.0f, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Right() - 8, _y - 10, 0, -100.0f, false);
+		mybullet = new Bullet(Right() - 8, _y + 10, 0, -100.0f, false);
 	}
 }
 

@@ -1,5 +1,5 @@
 #include "Zeb.h"
-
+#include"ImgDeath.h"
 
 Zeb::Zeb()
 {
@@ -19,6 +19,8 @@ void Zeb::Init()
 	_height = 18;
 	_vy = VY_ZEB;
 	_vx = 0;
+	HP = 15;
+	isDead = false;
 }
 void Zeb::Update(float time)
 {
@@ -37,6 +39,14 @@ void Zeb::Update(float time)
 			_vx = VX_ZEB*_direct;
 			isAttack = true;
 			_vy = 0;
+		}
+	}
+	float nx = 0, ny = 0;
+	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
+	{
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time) != 1.0f)
+		{
+			OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
 		}
 	}
 	_dx = _vx*time;
@@ -59,6 +69,7 @@ void Zeb::OnCollision(GameplayObject* obj, int nx, int ny)
 		if (HP == 0)
 		{
 			this->isDead = true;
+			ImgDeath::getInstance()->Set(XCenter(), YCenter());
 		}
 		break;
 	default:

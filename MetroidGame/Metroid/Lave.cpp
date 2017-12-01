@@ -16,6 +16,11 @@ void Lave::Init()
 	_height = 16;
 	_width = 16;
 }
+void Lave::BeforeUpdate()
+{
+	_vx = 0;
+	_vy = 0;
+}
 void Lave::Update(float time)
 {
 

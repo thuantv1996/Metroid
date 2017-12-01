@@ -59,73 +59,46 @@ void Camera::Update(float time)
 }
 void Camera::Draw(float time)
 {
-	// ve object
-	for (int i = 0; i < lstItem.size(); i++)
+	for (int i = 0; i < listObjectOnCamera.size(); i++)
 	{
-		lstItem[i]->Draw(time);
+		listObjectOnCamera[i]->Draw(time);
 	}
-	for (int i = 0; i < lstEnemy.size(); i++)
+	for (int i = 0; i < listBulletOnCamera.size(); i++)
 	{
-		lstEnemy[i]->Draw(time);
+		if (listBulletOnCamera[i]->isDead)
+		{
+			listBulletOnCamera.erase(listBulletOnCamera.begin()+i);
+			i--;
+			continue;
+		}
+		listBulletOnCamera[i]->Draw(time);
 	}
 }
 void Camera::OnCollision(GameplayObject* o,float nx,float ny)
 {
 	// code va cham
 }
-
-vector<GameplayObject*> Camera::GetListItem()
-{
-	return lstItem;
-}
-vector<GameplayObject*> Camera::GetListEnemy()
-{
-	return lstEnemy;
-}
-vector<GameplayObject*> Camera::GetListGround()
-{
-	return lstGround;
-}
 void Camera::AddObject(GameplayObject* o)
 {
-	switch (o->_type)
+	if (o->_type == BULLET|| o->_type == BULLET_ENEMY)
 	{
-	case GROUND:
-	case WALL:
-		lstGround.push_back(o);
-		break;
-	case BOMB:
-	case BEAM:
-	case ROCKET:
-	case DOOR:
-	case MARU:
-	case TUBE:
-	case BULLET:
-		lstItem.push_back(o);
-		break;
-	case RIO:
-	case RIPPER:
-	case SKREE:
-	case ZOMMER:
-	case LAVA:
-	case ZEB:
-		lstEnemy.push_back(o);
-		break;
+		listBulletOnCamera.push_back(o);
 	}
+	else
+	{
+		listObjectOnCamera.push_back(o);
+	}
+	
 }
 void Camera::UpdateObject(float time)
 {
-	for (int i = 0; i < lstItem.size(); i++)
+	for (int i = 0; i < listBulletOnCamera.size(); i++)
 	{
-		lstItem[i]->Update(time);
+		listBulletOnCamera[i]->Update(time);
 	}
-	for (int i = 0; i < lstEnemy.size(); i++)
+	for (int i = 0; i < listObjectOnCamera.size(); i++)
 	{
-		lstEnemy[i]->Update(time);
-	}
-	for (int i = 0; i < lstGround.size(); i++)
-	{
-		lstGround[i]->Update(time);
+		listObjectOnCamera[i]->Update(time);
 	}
 }
 D3DXMATRIX Camera::getMatrix()

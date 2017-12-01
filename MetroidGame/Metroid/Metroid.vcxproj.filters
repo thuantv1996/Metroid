@@ -138,9 +138,6 @@
     <ClInclude Include="Lave.h">
       <Filter>Header Files\OBJ\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files\OBJ\Map</Filter>
-    </ClInclude>
     <ClInclude Include="Wall.h">
       <Filter>Header Files\OBJ\Item</Filter>
     </ClInclude>
@@ -155,6 +152,27 @@
     </ClInclude>
     <ClInclude Include="BulletBoss.h">
       <Filter>Header Files\OBJ\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="QNode.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapInfo.h">
+      <Filter>Header Files\OBJ\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="State_1.h">
+      <Filter>Header Files\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="ImgDeath.h">
+      <Filter>Header Files\OBJ\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +260,6 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\OBJ\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files\OBJ\Map</Filter>
-    </ClCompile>
     <ClCompile Include="Wall.cpp">
       <Filter>Source Files\OBJ\Item</Filter>
     </ClCompile>
@@ -259,6 +274,27 @@
     </ClCompile>
     <ClCompile Include="BulletBoss.cpp">
       <Filter>Source Files\OBJ\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="QNode.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapInfo.cpp">
+      <Filter>Source Files\OBJ\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="State_1.cpp">
+      <Filter>Source Files\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="ImgDeath.cpp">
+      <Filter>Source Files\OBJ\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

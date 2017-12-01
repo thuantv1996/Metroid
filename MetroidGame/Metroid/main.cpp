@@ -1,6 +1,9 @@
 #include<Windows.h>
 #include"Game.h"
 #include"public_values.h"
+#include"MapInfo.h"
+#include"QTree.h"
+#include"Sound.h"
 /*prototype function*/
 bool GenerateWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle, int width, int height,HWND& hWnd);
 bool GenerateWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle, int x, int y, int width, int height, HWND& hWnd);
@@ -14,11 +17,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (GenerateWindow(hInstance, nCmdShow, "MyWindow", "MyGame", 550, 550,hWnd))
 	{
 		MSG msg;
-
-		float tickPerFrame = 1.0f / 60, delta = 0;
+		ZeroMemory(&msg, sizeof(msg));
+		float tickPerFrame = 1.0f / 40, delta = 0;
 		if (myGame->Init(hWnd, hInstance))
 		{
-			while (true)
+			MapInfo::getInstance()->LoadNodeFromFile("QTree.txt");
+			MapInfo::getInstance()->LoadObjectFromFile("QObject.txt");
+			QTree::getInstance()->Build();
+			while (msg.message != WM_QUIT)
 			{
 				GameTime::GetInstance()->StartCounter();
 
@@ -27,7 +33,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}
-
 				delta += GameTime::GetInstance()->GetCouter();
 
 				if (delta >= tickPerFrame)
@@ -44,6 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			
 			
 		}
+		myGame->Delete();
 		delete myGame;
 	}
 	return 1;

@@ -3,7 +3,7 @@
 
 BulletBoss::BulletBoss(int x, int y, float speedx, float speedy)
 {
-	_type = BULLET;
+	_type = BULLET_ENEMY;
 	tTime = 0;
 	Create(x, y, 7, 8);
 	_vx = speedx;
@@ -25,9 +25,15 @@ void BulletBoss::Update(float time)
 		isDead = true;
 		return;
 	}
-	_vy+=5;
+	_vy += 5;
+	float nx = 0, ny = 0;
+	if (CColision::mSweptAABB(this, MetroidChacracter::getInstance(), nx, ny, time) != 1)
+	{
+		MetroidChacracter::getInstance()->OnCollision(this, -nx, -ny);
+	}
 	_x += this->_vx*time;
 	_y += _vy*time;
+	
 }
 void BulletBoss::Draw(float time)
 {

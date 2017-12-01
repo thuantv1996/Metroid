@@ -1,5 +1,5 @@
 #include "Zoomer.h"
-
+#include"ImgDeath.h"
 Zoomer::Zoomer()
 {
 	this->_type = ZOMMER;
@@ -7,6 +7,7 @@ Zoomer::Zoomer()
 void Zoomer::Init()
 {
 	_y += 2;
+	HP = 20;
 	ZUp();
 	SetAction();
 }
@@ -15,18 +16,16 @@ void Zoomer::Update(float time)
 {
 	isColl = false;// kiem tra co va cham voi gach hay khong
 	isCol = false;// kiem tra co va cham voi gach dat biet hay khong
-	for (int i = 0; i < Camera::getInstance()->GetListGround().size(); i++)
+	float nx = 0, ny = 0;
+	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
 	{
 		if (isCol)
 		{
 			break;
 		}
-		float nx = 0;
-		float ny = 0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->GetListGround()[i], nx, ny, time) != 1 ||
-			CColision::collision(Camera::getInstance()->GetListGround()[i],this))
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time) != 1.0f)
 		{
-			this->OnCollision(Camera::getInstance()->GetListGround()[i], nx, ny);
+			OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
 		}
 	}
 	if (!isCol)
@@ -82,6 +81,7 @@ void Zoomer::OnCollision(GameplayObject* obj, int nx, int ny)
 		if (HP == 0)
 		{
 			this->isDead = true;
+			ImgDeath::getInstance()->Set(XCenter(), YCenter());
 		}
 		break;
 	case WALL:

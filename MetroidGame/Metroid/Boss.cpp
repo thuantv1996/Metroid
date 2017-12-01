@@ -1,5 +1,5 @@
 #include "Boss.h"
-
+#include"ImgDeath.h"
 
 Boss::Boss()
 {
@@ -14,6 +14,8 @@ void Boss::Update(float time)
 {
 	if (MetroidChacracter::getInstance()->_x - Right() <= 70)
 	{
+		_vx = 0;
+		_vy = 0;
 		if (abs(MetroidChacracter::getInstance()->YCenter() - YCenter()) <= 80)
 		{
 			if (isActtack)
@@ -36,17 +38,6 @@ void Boss::Update(float time)
 		{
 			Stop();
 			isActtack = false;
-		}
-	}
-	_vx = 0;
-	_vy = 0;
-	for (int i = 0; i < Camera::getInstance()->GetListItem().size(); i++)
-	{
-		float nx = 0;
-		float ny = 0;
-		if (CColision::mSweptAABB(Camera::getInstance()->GetListItem()[i], this, nx, ny, time) != 1)
-		{
-			OnCollision(Camera::getInstance()->GetListItem()[i], nx, ny);
 		}
 	}
 }
@@ -94,6 +85,7 @@ void Boss::OnCollision(GameplayObject* o, float nx, float ny)
 		if (HP == 0)
 		{
 			isDead = true;
+			ImgDeath::getInstance()->Set(XCenter(), YCenter());
 		}
 	}
 }

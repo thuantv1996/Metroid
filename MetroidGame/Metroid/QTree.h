@@ -1,10 +1,16 @@
 #pragma once
-#include"Node.h"
+#include"QNode.h"
+#include"MapInfo.h"
+#include"Camera.h"
 class QTree
 {
+private:
+	static QTree* instance;
 public:
-	static void Build(int ws, int hs, Node* R);
-	static Node* CreateRoot(int w, int h, vector<GameplayObject*> l);
+	QNode* Root;
+	static QTree* getInstance();
+	void Build();
+	void LoadObjectToCamera(QNode* r);
 	QTree();
 	~QTree();
 };

@@ -21,6 +21,14 @@ void Bullet::Draw(float time)
 void Bullet::Update(float time)
 {
 	total_time += time;
+	float nx = 0, ny = 0;
+	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
+	{
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time) != 1.0f)
+		{
+			Camera::getInstance()->listObjectOnCamera[i]->OnCollision(this, -nx, -ny);
+		}
+	}
 	_dx = _vx*time;
 	_dy = _vy*time;
 	_x += _dx;
@@ -48,9 +56,9 @@ Bullet::Bullet(float xc, float yc, float vx, float vy, bool isrocket)
 	}
 	
 	_x = xc-_width/2;
-	_y = yc-_height/2;
+	_y = yc+_height/2;
 	_vx = vx;
-	_vy = vy;
+	_vy = -vy;
 	total_time = 0;
 	isDead = false;
 	isRocket = isrocket;

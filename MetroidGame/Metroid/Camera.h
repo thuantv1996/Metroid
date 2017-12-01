@@ -24,16 +24,12 @@ public:
 	void Update(float time);
 	void Draw(float time);
 	void OnCollision(GameplayObject* o,float nx,float ny);
-	vector<GameplayObject*> GetListItem();
-	vector<GameplayObject*> GetListEnemy();
-	vector<GameplayObject*> GetListGround();
+	vector<GameplayObject*> listObjectOnCamera;
+	vector<GameplayObject*> listBulletOnCamera;
 	void AddObject(GameplayObject* o);
 	void UpdateObject(float time);
 	D3DXMATRIX getMatrix();
 private:
-	vector<GameplayObject*> lstItem;
-	vector<GameplayObject*> lstEnemy;
-	vector<GameplayObject*> lstGround;
 	static Camera* instance;
 };
 

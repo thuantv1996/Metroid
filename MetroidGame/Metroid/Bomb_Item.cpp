@@ -1,5 +1,5 @@
 #include "Bomb_Item.h"
-
+#include"ImgDeath.h"
 
 Bomb_Item::Bomb_Item()
 {
@@ -22,11 +22,10 @@ void Bomb_Item::Draw(float time)
 }
 void Bomb_Item::OnCollision(GameplayObject* obj, int nx, int ny)
 {
-
 }
 void Bomb_Item::Init()
 {
-	img.Create("src//img//item//Bomb.png", 18, 18, 1, 1.0f / 2, RIGHT);
+	img.Create("src//img//item//Bomb.png", 16, 16, 1, 1.0f / 2, RIGHT);
 	_height = HEIGHT_BOMB;
 	_width = WIDTH_BOMB;
 }

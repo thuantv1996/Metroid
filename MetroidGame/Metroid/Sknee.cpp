@@ -1,5 +1,5 @@
 #include "Sknee.h"
-
+#include"ImgDeath.h"
 
 Sknee::Sknee()
 {
@@ -50,6 +50,14 @@ void Sknee::Update(float time)
 		_vx = 0;
 		_vy = 0;
 	}
+	float nx = 0, ny = 0;
+	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
+	{
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time) != 1.0f)
+		{
+			OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
+		}
+	}
 	_dx = _vx*time;
 	_dy = _vy*time;
 	_x += _dx;
@@ -70,6 +78,7 @@ void Sknee::OnCollision(GameplayObject* obj, int nx, int ny)
 		if (HP == 0)
 		{
 			this->isDead = true;
+			ImgDeath::getInstance()->Set(XCenter(), YCenter());
 		}
 		break;
 	case GROUND:
@@ -93,6 +102,7 @@ void Sknee::Init()
 	_vy = 0;
 	_height = HEIGHT_SKNEE;
 	_width = WIDTH_SKNEE;
+	HP = 10;
 	isDead = false;
 }
 void Sknee::Begin()

@@ -23,5 +23,6 @@ enum TypeObject
 	ZEB,
 	BULLET,
 	WALL,
-	BOSS
+	BOSS,
+	BULLET_ENEMY
 };

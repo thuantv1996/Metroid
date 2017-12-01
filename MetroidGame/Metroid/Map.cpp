@@ -170,10 +170,10 @@ Node* Map::LoadObjectFromFile(char* file_name)
 			continue;
 		}
 	}
-	Node* root = QTree::CreateRoot(7680, 4560, l);
-	QTree::Build(256, 250, root);
+
 	f.close();
-	return root;
+	Node* r = new Node();
+	return r;
 }
 
 void Map::ColisionCamera(Node* r,float time)

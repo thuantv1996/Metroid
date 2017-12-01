@@ -4,64 +4,84 @@
 QTree::QTree()
 {
 }
-
-
+QTree* QTree::instance = 0;
+QTree* QTree::getInstance()
+{
+	if (!instance)
+	{
+		instance = new QTree();
+	}
+	return instance;
+}
 QTree::~QTree()
 {
 }
 
-void QTree::Build(int ws, int hs, Node* r)
+void QTree::Build()
 {
-	if (r->_width <= ws&&r->_height <= hs)
+	map<int, QNode*>::iterator temp;
+	for (temp = MapInfo::getInstance()->mapNode.begin(); temp != MapInfo::getInstance()->mapNode.end(); temp++)
 	{
-		return;
+		int id_c = temp->first;
+		if (id_c == 0)
+		{
+			Root = MapInfo::getInstance()->mapNode[id_c];
+		}
+		else
+		{
+			int id_p = id_c / 10;
+			int child = id_c % 10;
+			QNode* parent= MapInfo::getInstance()->mapNode[id_p];
+			if (parent!=NULL)
+			{
+				switch (child)
+				{
+				case 1:
+					parent->_1 = MapInfo::getInstance()->mapNode[id_c];
+					break;
+				case 2:
+					parent->_2 = MapInfo::getInstance()->mapNode[id_c];
+					break;
+				case 3:
+					parent->_3 = MapInfo::getInstance()->mapNode[id_c];
+					break;
+				case 4:
+					parent->_4 = MapInfo::getInstance()->mapNode[id_c];
+					break;
+				}
+			}
+		}	
 	}
-	if (r->lst.size() == 0)
-	{
-		return;
-	}
-	r->CreateNode();
-	for (int i = 0; i < r->lst.size(); i++)
-	{
-		if (r->_1->AddObject(r->lst[i]))
-		{
-			r->Delete(r->lst[i]->_id);
-			i--;
-			continue;
-		}
-		if (r->_2->AddObject(r->lst[i]))
-		{
-			r->Delete(r->lst[i]->_id);
-			i--;
-			continue;
-		}
-		if (r->_3->AddObject(r->lst[i]))
-		{
-			r->Delete(r->lst[i]->_id);
-			i--;
-			continue;
-		}
-		if (r->_4->AddObject(r->lst[i]))
-		{
-			r->Delete(r->lst[i]->_id);
-			i--;
-			continue;
-		}
-	}
-	Build(ws, hs, r->_1);
-	Build(ws, hs, r->_2);
-	Build(ws, hs, r->_3);
-	Build(ws, hs, r->_4);
-
 }
-Node* QTree::CreateRoot(int w, int h, vector<GameplayObject*> l)
+void QTree::LoadObjectToCamera(QNode* r)
 {
-	Node* r = new Node();
-	r->Create(0, 0, w, h);
-	r->_id = 0;
-	for (int i = 0; i < l.size(); i++)
+	if (!CColision::collision(Camera::getInstance(), r))
 	{
-		r->AddObject(l[i]);
+		return;
 	}
-	return r;
+	if (r->_id == 0)
+	{
+		Camera::getInstance()->listObjectOnCamera.clear();
+		/*Camera::getInstance()->GetListItem().clear();
+		Camera::getInstance()->GetListEnemy().clear();
+		Camera::getInstance()->GetListGround().clear();*/
+	}
+	if (r->_1 != NULL)
+	{
+		LoadObjectToCamera(r->_1);
+		LoadObjectToCamera(r->_2);
+		LoadObjectToCamera(r->_3);
+		LoadObjectToCamera(r->_4);
+	}
+	if (r->lstIdObject.empty())
+	{
+		return;
+	}
+	for (int i = 0; i < r->lstIdObject.size(); i++)
+	{
+		if (!MapInfo::getInstance()->mapObject[r->lstIdObject[i]]->isDead)
+		{
+				Camera::getInstance()->AddObject(MapInfo::getInstance()->mapObject[r->lstIdObject[i]]);
+		}
+	}
 }

@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dinput8.lib;dsound.lib;dxguid.lib;winmm.lib;d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dinput8.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,18 +86,24 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GraphicsDevice.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="ImgDeath.h" />
     <ClInclude Include="InputGame.h" />
     <ClInclude Include="Lave.h" />
     <ClInclude Include="LongBeam.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapInfo.h" />
     <ClInclude Include="MaruMari.h" />
     <ClInclude Include="MetroidChacracter.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="QNode.h" />
     <ClInclude Include="QTree.h" />
     <ClInclude Include="Rio.h" />
     <ClInclude Include="Ripper.h" />
     <ClInclude Include="Rocket_Item.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Sknee.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="State_1.h" />
     <ClInclude Include="TuBe.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Zeb.h" />
@@ -121,19 +127,25 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GraphicsDevice.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="ImgDeath.cpp" />
     <ClCompile Include="InputGame.cpp" />
     <ClCompile Include="Lave.cpp" />
     <ClCompile Include="LongBeam.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapInfo.cpp" />
     <ClCompile Include="MaruMari.cpp" />
     <ClCompile Include="MetroidChacracter.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="QNode.cpp" />
     <ClCompile Include="QTree.cpp" />
     <ClCompile Include="Rio.cpp" />
     <ClCompile Include="Ripper.cpp" />
     <ClCompile Include="Rocket_Item.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="Sknee.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="State_1.cpp" />
     <ClCompile Include="TuBe.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Zeb.cpp" />
