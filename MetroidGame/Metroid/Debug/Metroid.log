@@ -1,5 +1,6 @@
-﻿  main.cpp
+﻿  Ripper.cpp
   c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-d:\project\game\git\metroid\metroidgame\metroid\main.cpp(45): warning C4244: 'argument': conversion from 'float' to 'DWORD', possible loss of data
+d:\project\game\git\metroid\metroidgame\metroid\ripper.cpp(24): warning C4018: '<': signed/unsigned mismatch
+d:\project\game\git\metroid\metroidgame\metroid\ripper.cpp(28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Debug\Metroid.exe
   Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Debug\Metroid.pdb (Full PDB)

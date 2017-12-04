@@ -40,11 +40,11 @@ void MetroidChacracter::Init(HINSTANCE hInstance, HWND hWnd)
 }
 void MetroidChacracter::SetListAction()
 {
-	lstAction[BEGIN].Create(filename+"begin.png", 64, 32, 4, 1.5f, RIGHT);
+	lstAction[BEGIN].Create(filename + "begin.png", 64, 32, 4, 1.5f, RIGHT);
 	lstAction[STOP].Create(filename + "stop.png", 18, 32, 1, float(1.0f / 24), RIGHT);
 	lstAction[UP].Create(filename + "up.png", 15, 38, 1, 1, RIGHT);
 	lstAction[UP_ATTACK].Create(filename + "up_attack.png", 15, 38, 1, float(1.0f / 24), RIGHT);
-	lstAction[RUN].Create(filename + "run.png",87 , 32, 3, 1.0f/24, RIGHT);
+	lstAction[RUN].Create(filename + "run.png", 87, 32, 3, 1.0f / 24, RIGHT);
 	lstAction[RUN_UP].Create(filename + "run_up.png", 69, 38, 3, float(1.0f / 24), RIGHT);
 	lstAction[RUN_UP_ATTACK].Create(filename + "run_up_attack.png", 23, 38, 1, float(1.0f / 24), RIGHT);
 	lstAction[RUN_ATTACK].Create(filename + "run_attack.png", 87, 31, 3, float(1.0f / 24), RIGHT);
@@ -58,33 +58,48 @@ void MetroidChacracter::SetListAction()
 }
 void MetroidChacracter::UpdatePosition(float time)
 {
-	if (curAction == BEGIN && lstAction[curAction].NextFrame(time)==0)
+	if (curAction == BEGIN && lstAction[curAction].NextFrame(time) == 0)
 	{
 		Stop();
 	}
 	// xet van toc ban dau
 	if (!isJumming)
 	{
-		_vy = 0;
+		_vy = -30;
 	}
 	else
 	{
 		_vy -= GRAVITY;
 	}
+	isGround = false;
+	isStop = false;
 	for (int i = 0; i < Camera::getInstance()->listObjectOnCamera.size(); i++)
 	{
 		float nx = 0, ny = 0;
-		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time)!=1 ||
-			CColision::mSweptAABB(Camera::getInstance()->listObjectOnCamera[i], this, nx, ny, time)!=1)
+		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time) != 1 ||
+			CColision::mSweptAABB(Camera::getInstance()->listObjectOnCamera[i], this, nx, ny, time) != 1)
 		{
 			this->OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
 		}
 	}
-	
+
 	if (isGround)
 	{
 		_vy = 0;
-		_y = ground._y + _height+2;
+
+	}
+	if (isStop)
+	{
+		if (_vx > 0)
+		{
+			_x = ground._x - _width;
+		}
+		else
+		{
+			_x = ground.Right();
+		}
+		_vx = 0;
+
 	}
 	_x += _vx*time;
 	_y += _vy*time;
@@ -107,12 +122,12 @@ void MetroidChacracter::Draw(float time)
 	{
 		if (Ve % 2 == 1)
 		{
-			lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y+yDraw, 0), _direct, time);
+			lstAction[curAction].Draw(D3DXVECTOR3(_x - xDraw, _y + yDraw, 0), _direct, time);
 		}
 		return;
 	}
 
-	lstAction[curAction].Draw(D3DXVECTOR3(_x-xDraw, _y+yDraw, 0), _direct, time);
+	lstAction[curAction].Draw(D3DXVECTOR3(_x - xDraw, _y + yDraw, 0), _direct, time);
 }
 void MetroidChacracter::Update(float time)
 {
@@ -317,7 +332,7 @@ void MetroidChacracter::OnKeyDown(int KeyCode)
 		}
 		if (curAction == ROLL)
 		{
-			if (!press_key_left&& !press_key_right)
+			if (!press_key_left && !press_key_right)
 			{
 				Stop();
 				_vx = 0;
@@ -371,47 +386,43 @@ void MetroidChacracter::OnCollision(GameplayObject* o, float nx, float ny)
 	switch (o->_type)
 	{
 	case GROUND:
-		if (isJumming)
-		{
-			if (_vy > 0)
-			{
-				isJumming = false;
-				Stop();
-				ground.Create(o->_x, o->_y, o->_width, o->_height);
-				isGround = true;
-			}
-		}
-		else
-			if (Bottom() <= o->_y)
-			{
-				isGround = true;
-				ground.Create(o->_x, o->_y, o->_width, o->_height);
-			}
-		break;
-	case WALL:
-
-		if (Bottom() < o->_y)
-		{
-			isGround = true;
-			wall.Create(o->_x, o->_y, o->_width, o->_height);
-			return;
-		}
-		if (o->YCenter() > Top() && o->YCenter() < Bottom())
+		if (_vx != 0 && o->YCenter() < Top() && o->YCenter() > Bottom())
 		{
 			isStop = true;
+			ground.Create(o->_x, o->_y, o->_width, o->_height);
 		}
+		else
+			if (isJumming)
+			{
+				if (_vy < 0 && (_x<o->Right() - 2 || Right()>o->_y + 2))
+				{
+					isJumming = false;
+					Stop();
+					ground.Create(o->_x, o->_y, o->_width, o->_height);
+					_y = ground._y + _height;
+					isGround = true;
+				}
+			}
+			else
+
+				if (_vy < 0)
+				{
+					isGround = true;
+					ground.Create(o->_x, o->_y, o->_width, o->_height);
+				}
 		break;
 	case BOMB:
 		o->isDead = true;
 		ImgDeath::getInstance()->Set(o->XCenter(), o->YCenter());
 		break;
+		
 	case BEAM:
 		o->isDead = true;
 		break;
 	case MARU:
 		o->isDead = true;
 		break;
-	
+
 	case DOOR:
 		if (nx == 1)// left
 		{
@@ -532,18 +543,19 @@ void MetroidChacracter::Stop()
 		// Thay doi height
 		_height = 32;
 		_y += 7;
-	}else
-	if (curAction == JUM_ROLL)
-	{
-		_height = 32;
-		_y += 9;
 	}
 	else
-	if (curAction == ROLL)
-	{
-		_height = 32;
-		_y += 19;
-	}
+		if (curAction == JUM_ROLL)
+		{
+			_height = 32;
+			_y += 9;
+		}
+		else
+			if (curAction == ROLL)
+			{
+				_height = 32;
+				_y += 19;
+			}
 	if (_direct == RIGHT)
 	{
 		xDraw = 3;
@@ -552,30 +564,30 @@ void MetroidChacracter::Stop()
 	{
 		xDraw = 4;
 	}
-	
+
 	yDraw = 0;
 	_height = 32;
 	curAction = STOP;
 }
 void MetroidChacracter::Up()
 {
-	if (curAction == STOP||curAction==UP_ATTACK)
+	if (curAction == STOP || curAction == UP_ATTACK)
 	{
 		curAction = UP;
 	}
 	else
-	if (curAction == JUM_UP || curAction == JUM_UP_ATTACK)
-	{
-		curAction = UP;
-		_y += 7;
-	}
-	else
-	if (curAction == RUN_UP)
-	{
-		curAction = UP;
-	}
-	else
-		return;
+		if (curAction == JUM_UP || curAction == JUM_UP_ATTACK)
+		{
+			curAction = UP;
+			_y += 7;
+		}
+		else
+			if (curAction == RUN_UP)
+			{
+				curAction = UP;
+			}
+			else
+				return;
 	_height = 32;
 	xDraw = 2;
 	yDraw = 6;
@@ -589,7 +601,7 @@ void MetroidChacracter::UpAttack()
 			return;
 		}
 	}*/
-	if (curAction != UP&&curAction!=RUN_UP_ATTACK)
+	if (curAction != UP&&curAction != RUN_UP_ATTACK)
 		return;
 	curAction = UP_ATTACK;
 	_height = 32;
@@ -597,16 +609,16 @@ void MetroidChacracter::UpAttack()
 	yDraw = 6;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(_x + 8, _y , 0, -100.0f, false);
+		mybullet = new Bullet(_x + 8, _y, 0, -100.0f, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Right() - 8, _y , 0, -100.0f, false);
+		mybullet = new Bullet(Right() - 8, _y, 0, -100.0f, false);
 	}
 }
 void MetroidChacracter::Run()
 {
-	if (curAction != STOP && curAction != RUN_ATTACK&&curAction!=RUN_UP)
+	if (curAction != STOP && curAction != RUN_ATTACK&&curAction != RUN_UP)
 	{
 		return;
 	}
@@ -686,7 +698,7 @@ void MetroidChacracter::Attack()
 			return;
 		}
 	}*/
-	
+
 	if (curAction != STOP && curAction != RUN_ATTACK)
 	{
 		return;
@@ -697,11 +709,11 @@ void MetroidChacracter::Attack()
 	curAction = ATTACK;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(Right() + 3, _y-10, 100.0f, 0, false);
+		mybullet = new Bullet(Right() + 3, _y - 10, 100.0f, 0, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Left() - 3,_y - 10, -100.0f, 0, false);
+		mybullet = new Bullet(Left() - 3, _y - 10, -100.0f, 0, false);
 	}
 }
 void MetroidChacracter::RunAttack()
@@ -773,11 +785,11 @@ void MetroidChacracter::RunUpAttack()
 	yDraw = 6;
 	if (_direct == RIGHT)
 	{
-		mybullet = new Bullet(_x + 12, _y + 10,0, -100.0f, false);
+		mybullet = new Bullet(_x + 12, _y + 10, 0, -100.0f, false);
 	}
 	else
 	{
-		mybullet = new Bullet(Right() - 12, _y + 10, 0,-100.0f, false);
+		mybullet = new Bullet(Right() - 12, _y + 10, 0, -100.0f, false);
 	}
 }
 void MetroidChacracter::JumUpAttack()
@@ -822,18 +834,18 @@ void MetroidChacracter::CreateBulletHorizontal()
 	}
 	else
 	{
-		x = Left()+2;
+		x = Left() + 2;
 		y = _y + 10;
 		vx = 100.0f;
 		vy = 0;
 	}
 	if (numberRocket > 0)
 	{
-		mybullet = new Bullet(x, y, vx, vy,true);
+		mybullet = new Bullet(x, y, vx, vy, true);
 	}
 	else
 	{
-		mybullet = new Bullet(x, y, vx, vy,false);
+		mybullet = new Bullet(x, y, vx, vy, false);
 	}
 }
 void MetroidChacracter::CreateBulletVertical()
@@ -850,17 +862,17 @@ void MetroidChacracter::CreateBulletVertical()
 	else
 	{
 		x = Left() - 5;
-		y = _y -5;
+		y = _y - 5;
 	}
 	vy = -100.0f;
 	vx = 0;
 	if (numberRocket > 0)
 	{
-		mybullet = new Bullet( x, y, vx, vy,true);
+		mybullet = new Bullet(x, y, vx, vy, true);
 	}
 	else
 	{
-		mybullet = new Bullet(x, y, vx, vy,false);
+		mybullet = new Bullet(x, y, vx, vy, false);
 	}
 }
 

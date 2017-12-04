@@ -18,12 +18,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
-		float tickPerFrame = 1.0f / 40, delta = 0;
+		float tickPerFrame = 1.0f / 60, delta = 0;
 		if (myGame->Init(hWnd, hInstance))
 		{
-			MapInfo::getInstance()->LoadNodeFromFile("QTree.txt");
+			/*MapInfo::getInstance()->LoadNodeFromFile("QTree.txt");
 			MapInfo::getInstance()->LoadObjectFromFile("QObject.txt");
-			QTree::getInstance()->Build();
+			QTree::getInstance()->Build();*/
 			while (msg.message != WM_QUIT)
 			{
 				GameTime::GetInstance()->StartCounter();

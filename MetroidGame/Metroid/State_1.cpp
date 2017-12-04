@@ -18,8 +18,8 @@ void State_1::Init(HWND hWnd, HINSTANCE instance)
 {
 	GameSprite::getInstance()->Init(GraphicsDevice::GetInstance()->device);
 	BackgroundGame::getInstance()->Init("TitleMaps.txt", 256, 256);
-	Camera::getInstance()->Create(0, 256, 256, 250);
-	MetroidChacracter::getInstance()->Create(20, 80, 10, 29);
+	Camera::getInstance()->Create(590, 1104, 256, 250);
+	MetroidChacracter::getInstance()->Create(635, 950, 10, 29);
 	MetroidChacracter::getInstance()->Init(instance, hWnd);
 	// init sound
 	Sound::getInstance()->Init(hWnd);
@@ -29,15 +29,15 @@ void State_1::Init(HWND hWnd, HINSTANCE instance)
 }
 void State_1::Update(float time)
 {
-	QTree::getInstance()->LoadObjectToCamera(QTree::getInstance()->Root);
+	//QTree::getInstance()->LoadObjectToCamera(QTree::getInstance()->Root);
 	MetroidChacracter::getInstance()->Update(time);
-	Camera::getInstance()->Update(time);
+	//Camera::getInstance()->Update(time);
 	ImgDeath::getInstance()->Update(time);
 }
 void State_1::Draw(float time)
 {
-	BackgroundGame::getInstance()->Draw();
-	Camera::getInstance()->Draw(time);
+	//BackgroundGame::getInstance()->Draw();
+	//Camera::getInstance()->Draw(time);
 	MetroidChacracter::getInstance()->Draw(time);
 	ImgDeath::getInstance()->Draw(time);
 }

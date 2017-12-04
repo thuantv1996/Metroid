@@ -6,7 +6,7 @@ Zoomer::Zoomer()
 }
 void Zoomer::Init()
 {
-	_y += 2;
+	_y -= 3;
 	HP = 20;
 	ZUp();
 	SetAction();
@@ -23,7 +23,7 @@ void Zoomer::Update(float time)
 		{
 			break;
 		}
-		if (CColision::mSweptAABB(this, Camera::getInstance()->listObjectOnCamera[i], nx, ny, time) != 1.0f)
+		if (CColision::collision(this, Camera::getInstance()->listObjectOnCamera[i]))
 		{
 			OnCollision(Camera::getInstance()->listObjectOnCamera[i], nx, ny);
 		}
@@ -46,14 +46,14 @@ void Zoomer::Update(float time)
 			else
 			if (_vy > 0)
 			{
-				ZDown();
-				_y = oldGround->Bottom();
+				ZUp();
+				_y = oldGround->_y+_height;
 			}
 			else
 			if (_vy < 0)
 			{
-				ZUp();
-				_y = oldGround->_y-_height;
+				ZDown();
+				_y = oldGround->Bottom();
 			}
 		}
 	}
@@ -84,22 +84,22 @@ void Zoomer::OnCollision(GameplayObject* obj, int nx, int ny)
 			ImgDeath::getInstance()->Set(XCenter(), YCenter());
 		}
 		break;
-	case WALL:
-		if (_vx > 0 && YCenter()>obj->Top()&& YCenter()<obj->Bottom())
+	case GROUND:
+		if (_vx > 0 && YCenter()<obj->Top() && YCenter()>obj->Bottom())
 		{
-			
+
 			isCol = true;
 			isColl = true;
 			ZLeft();
-			_x =obj->_x-_width ;
-			_y = obj->Bottom() - _height;
+			_x = obj->_x - _width;
+			_y = obj->Top();
 			oldGround = obj;
 			break;
-			
+
 		}
-		if (_vx < 0 && YCenter()>obj->Top() && YCenter()<obj->Bottom())
+		if (_vx < 0 && YCenter()<obj->Top() && YCenter()>obj->Bottom())
 		{
-			
+
 			isCol = true;
 			isColl = true;
 			ZRight();
@@ -108,29 +108,24 @@ void Zoomer::OnCollision(GameplayObject* obj, int nx, int ny)
 			oldGround = obj;
 			break;
 		}
-		oldGround = obj;
-		isColl = true;
-		break;
-	case GROUND:
 		if (_vy > 0 && XCenter() < obj->Right() && XCenter()>obj->Left())
-		{
-			
-			isCol = true;
-			isColl = true;
-			ZUp();
-			_x = obj->_x;
-			_y = obj->_y - _height;
-			oldGround = obj;
-			break;
-		}
-		if (_vy < 0 && XCenter() < obj->Right() && XCenter()>obj->Left())
 		{
 			
 			isCol = true;
 			isColl = true;
 			ZDown();
 			_x = obj->_x;
-			_y = obj->Bottom(); 
+			_y = obj->Bottom();
+			oldGround = obj;
+			break;
+		}
+		if (_vy < 0 && XCenter() < obj->Right() && XCenter()>obj->Left())
+		{
+			isCol = true;
+			isColl = true;
+			ZUp();
+			_x = obj->_x;
+			_y = obj->_y+_height; 
 			oldGround = obj;
 			break;
 		}

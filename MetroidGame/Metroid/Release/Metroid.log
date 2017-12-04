@@ -1,0 +1,9 @@
+﻿  State_1.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Generating code
+  4 of 562 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Release\Metroid.exe
+  Metroid.vcxproj -> D:\Project\Game\Git\Metroid\MetroidGame\Release\Metroid.pdb (Full PDB)

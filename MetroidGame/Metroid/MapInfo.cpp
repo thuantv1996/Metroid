@@ -136,7 +136,6 @@ void MapInfo::LoadObjectFromFile(char* file_name)
 			go->_id = id;
 			go->Init();
 		}
-		mapObject[id] = go;
 	}
 	f.close();
 }

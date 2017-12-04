@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="framework">
+      <UniqueIdentifier>{2430fbf4-85d1-4da7-b5a6-15404f91439b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{63d0453e-f0a0-4344-a0c4-a31220792fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{ed147efc-409e-4b7e-8708-b95f545c84c6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="framework\GameSprite.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\GameTime.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\GraphicsDevice.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\InputGame.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\Sound.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\Animation.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\BackgroundGame.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\ScreenManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="object\Camera.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="object\BasicObject.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="object\Player.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\Screen.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework\GraphicsDevice.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\InputGame.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\GameTime.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\GameSprite.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\Sound.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\Animation.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\BackgroundGame.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\ScreenManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object\Camera.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="object\BasicObject.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="object\Player.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\Screen.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

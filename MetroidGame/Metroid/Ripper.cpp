@@ -41,7 +41,6 @@ void Ripper::OnCollision(GameplayObject* obj, int nx, int ny)
 	switch (obj->_type)
 	{
 	case GROUND:
-	case WALL:
 		_vx = -_vx;
 		break;
 	default:
